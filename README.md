@@ -889,6 +889,3 @@ The goal is to turn real requirements into maintainable software while continuou
   <strong>JRSphere</strong><br>
   <em>Learn by building. Build with purpose. Deliver with quality.</em>
 </p>
-```
-
-README-তে GPL-3.0 উল্লেখ করার পাশাপাশি repository root-এ একটি `LICENSE` file-এ **official GNU GPL v3.0 license text** যোগ করাও জরুরি।
