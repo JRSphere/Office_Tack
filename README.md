@@ -1,3 +1,4 @@
+````markdown
 # JRS OfficeTrack
 
 > A PHP/MySQL office and financial operations system built around real-world home-service business workflows by JRSphere.
@@ -6,7 +7,7 @@
 ![PHP](https://img.shields.io/badge/PHP-Backend-777BB4)
 ![MySQL](https://img.shields.io/badge/MySQL-Database-4479A1)
 ![Tailwind%20CSS](https://img.shields.io/badge/Tailwind%20CSS-Frontend-06B6D4)
-![License](https://img.shields.io/badge/license-not%20specified-lightgrey)
+![License](https://img.shields.io/badge/license-GPL--3.0-blue)
 
 ---
 
@@ -34,7 +35,7 @@ The project represents an early real-world software delivery effort from JRSpher
 
 **Status: In Development**
 
-The core application workflow is implemented, including authentication, dashboard reporting, job entry, worker management, ledger operations, and financial reports.
+The core application workflow is implemented, including authentication, dashboard, job entry, worker management, ledger operations, and financial reports.
 
 The repository is still an early-stage codebase and should not be considered production-ready without further work on configuration management, schema consistency, security hardening, automated testing, deployment practices, and application-wide validation.
 
@@ -229,18 +230,25 @@ flowchart LR
     UI --> APP
     APP --> PDO
     PDO --> DB
-Architecture Characteristics
-Server-rendered PHP pages
-Shared PHP include files for navigation and database access
-PDO-based database queries
-Session-based authentication
-MySQL/MariaDB persistence
-Client-side calculation preview using JavaScript
-Tailwind-based UI styling
+````
+
+### Architecture Characteristics
+
+* Server-rendered PHP pages
+* Shared PHP include files for navigation and database access
+* PDO-based database queries
+* Session-based authentication
+* MySQL/MariaDB persistence
+* Client-side calculation preview using JavaScript
+* Tailwind-based UI styling
 
 The project does not currently expose a separate REST API layer.
 
-Project Structure
+---
+
+## Project Structure
+
+```text
 Office_Tack/
 ├── assets/
 │   ├── jrs.png
@@ -269,30 +277,40 @@ Office_Tack/
 ├── tailwind.min.css
 ├── .gitignore
 └── README.md
-Important Components
-File / Directory	Purpose
-login.php	Admin authentication
-dashboard.php	Dashboard and operational summary
-job_entry.php	Job creation, calculation, and deletion
-workers.php	Worker records and statistics
-ledger.php	Account balance and transaction management
-reports.php	Date/month financial reports
-settings.php	Admin profile and password management
-about.php	JRSphere information page
-includes/db.php	PDO database connection
-includes/navbar.php	Shared application navbar and notifications UI
-includes/sidebar.php	Main application navigation
-jrs_officetrack.sql	Database schema and seed data
-Database
+```
+
+### Important Components
+
+| File / Directory       | Purpose                                        |
+| ---------------------- | ---------------------------------------------- |
+| `login.php`            | Admin authentication                           |
+| `dashboard.php`        | Dashboard and operational summary              |
+| `job_entry.php`        | Job creation, calculation, and deletion        |
+| `workers.php`          | Worker records and statistics                  |
+| `ledger.php`           | Account balance and transaction management     |
+| `reports.php`          | Date/month financial reports                   |
+| `settings.php`         | Admin profile and password management          |
+| `about.php`            | JRSphere information page                      |
+| `includes/db.php`      | PDO database connection                        |
+| `includes/navbar.php`  | Shared application navbar and notifications UI |
+| `includes/sidebar.php` | Main application navigation                    |
+| `jrs_officetrack.sql`  | Database schema and seed data                  |
+
+---
+
+## Database
 
 The included SQL dump defines the following core tables:
 
-admin
-account
-workers
-jobs
-transactions
-Database Relationship
+* `admin`
+* `account`
+* `workers`
+* `jobs`
+* `transactions`
+
+### Database Relationship
+
+```mermaid
 erDiagram
     WORKERS ||--o{ JOBS : assigned_to
 
@@ -339,118 +357,163 @@ erDiagram
         date transaction_date
         timestamp created_at
     }
-Job Calculation Model
+```
+
+### Job Calculation Model
 
 The application calculates worker payment from the configured commission percentage:
 
+```text
 worker_pay = total_payment × commission_percent / 100
 
 business_profit = total_payment - worker_pay
+```
 
 When a job is added, the application updates:
 
-The jobs table
-The main account balance
-The transactions ledger
-The selected worker's job/payment totals
+* The `jobs` table
+* The main `account` balance
+* The `transactions` ledger
+* The selected worker's job/payment totals
 
 When a job is removed, the application attempts to reverse the corresponding balance and worker statistics.
 
-Database Setup
+---
+
+## Database Setup
 
 The application expects a database named:
 
+```text
 jrs_officetrack
+```
 
 The database connection is configured in:
 
+```text
 includes/db.php
+```
 
 For a local XAMPP installation, the expected environment is approximately:
 
+```text
 PHP
 Apache
 MySQL / MariaDB
 phpMyAdmin
-Import the Database
+```
+
+### Import the Database
 
 Using phpMyAdmin:
 
-Start Apache and MySQL in XAMPP.
-Create a database named:
+1. Start **Apache** and **MySQL** in XAMPP.
+2. Create a database named:
+
+```text
 jrs_officetrack
-Import:
+```
+
+3. Import:
+
+```text
 jrs_officetrack.sql
-Verify that the tables are created successfully.
-Important
+```
 
-The current repository contains application code that references additional database fields/tables not defined in the included SQL dump. See Known Implementation Notes before using the application outside a development environment.
+4. Verify that the tables are created successfully.
 
-Getting Started
-Prerequisites
+### Important
+
+The current repository contains application code that references additional database fields/tables not defined in the included SQL dump. See [Known Implementation Notes](#known-implementation-notes) before using the application outside a development environment.
+
+---
+
+## Getting Started
+
+### Prerequisites
 
 Install:
 
-XAMPP or an equivalent PHP/Apache/MySQL environment
-PHP compatible with the repository
-MySQL or MariaDB
-A modern web browser
+* XAMPP or an equivalent PHP/Apache/MySQL environment
+* PHP compatible with the repository
+* MySQL or MariaDB
+* A modern web browser
 
 The included SQL dump was generated from a MariaDB environment using PHP 8.2 tooling.
 
-Clone the Repository
+### Clone the Repository
+
+```bash
 git clone https://github.com/JRSphere/Office_Tack.git
 cd Office_Tack
-Local Server Setup
+```
+
+### Local Server Setup
 
 For XAMPP, place the repository inside the Apache document root, for example:
 
+```text
 xampp/
 └── htdocs/
     └── Office_Tack/
+```
 
 Then:
 
-Start Apache.
-Start MySQL.
-Create/import the jrs_officetrack database.
-Review includes/db.php.
-Open the application in your browser.
+1. Start Apache.
+2. Start MySQL.
+3. Create/import the `jrs_officetrack` database.
+4. Review `includes/db.php`.
+5. Open the application in your browser.
 
 Example:
 
+```text
 http://localhost/Office_Tack/
+```
 
-The root index.php redirects visitors to:
+The root `index.php` redirects visitors to:
 
+```text
 login.php
-Configuration
+```
+
+---
+
+## Configuration
 
 Database settings are currently defined directly inside:
 
+```text
 includes/db.php
+```
 
 Current development configuration follows this structure:
 
+```php
 $host     = 'localhost';
 $dbname   = 'jrs_officetrack';
 $username = 'root';
 $password = '';
-Recommended Production Direction
+```
+
+### Recommended Production Direction
 
 Before production deployment, configuration should be moved away from application source code.
 
 Recommended improvements:
 
-Environment variables
-Environment-specific configuration
-Secret management
-Separate development and production credentials
-Removal of credentials/configuration from version-controlled application code
+* Environment variables
+* Environment-specific configuration
+* Secret management
+* Separate development and production credentials
+* Removal of credentials/configuration from version-controlled application code
 
 Do not commit production credentials, API keys, passwords, or other secrets to Git.
 
-Authentication & Authorization
+---
+
+## Authentication & Authorization
 
 The current application uses session-based authentication.
 
@@ -458,81 +521,99 @@ Protected pages check for an authenticated administrator session before allowing
 
 Examples include:
 
+```php
 if (!isset($_SESSION['admin'])) {
     header("Location: login.php");
     exit();
 }
+```
 
 Passwords are verified using PHP's password APIs:
 
+```php
 password_verify()
+```
 
 New passwords are stored using:
 
+```php
 password_hash()
-Current Authorization Model
+```
+
+### Current Authorization Model
 
 The repository currently implements a single administrator-oriented access model.
 
-It does not currently demonstrate:
+It does **not** currently demonstrate:
 
-Multiple application roles
-Granular permissions
-Role-based access control
-OAuth/OpenID authentication
-API token authentication
-Multi-factor authentication
-Testing
+* Multiple application roles
+* Granular permissions
+* Role-based access control
+* OAuth/OpenID authentication
+* API token authentication
+* Multi-factor authentication
+
+---
+
+## Testing
 
 There is currently no automated test suite in the repository.
 
 The repository does not contain evidence of:
 
-PHPUnit
-Integration tests
-End-to-end tests
-Browser automation
-CI-based test execution
-Automated coverage reporting
-Recommended Testing Direction
+* PHPUnit
+* Integration tests
+* End-to-end tests
+* Browser automation
+* CI-based test execution
+* Automated coverage reporting
+
+### Recommended Testing Direction
 
 As the project grows, testing should be introduced around:
 
-Authentication flows
-Job calculations
-Ledger balance changes
-Transaction reversal
-Worker statistics
-Report calculations
-Input validation
-Database operations
-Code Quality & Engineering Practices
+* Authentication flows
+* Job calculations
+* Ledger balance changes
+* Transaction reversal
+* Worker statistics
+* Report calculations
+* Input validation
+* Database operations
+
+---
+
+## Code Quality & Engineering Practices
 
 The project currently uses:
 
-PDO for database access
-Prepared SQL statements for many user-supplied values
-PHP session authentication
-Server-side input validation in several workflows
-Tailwind CSS for UI styling
-Shared navigation components
+* PDO for database access
+* Prepared SQL statements for many user-supplied values
+* PHP session authentication
+* Server-side input validation in several workflows
+* Tailwind CSS for UI styling
+* Shared navigation components
 
 The repository does not currently define:
 
-PHP linting configuration
-Composer dependency management
-Automated formatting
-Static analysis
-Automated test execution
-CI/CD pipelines
-Formal branch protection configuration
-Formal commit convention
-Development Workflow
+* PHP linting configuration
+* Composer dependency management
+* Automated formatting
+* Static analysis
+* Automated test execution
+* CI/CD pipelines
+* Formal branch protection configuration
+* Formal commit convention
+
+---
+
+## Development Workflow
 
 There is no formal GitHub Actions or branch workflow configuration in the current repository.
 
 For continued collaborative development, the following workflow is recommended:
 
+```text
 Issue / Requirement
         ↓
 Feature Branch
@@ -546,47 +627,58 @@ Pull Request
 Code Review
         ↓
 Merge
+```
 
 Suggested branch naming:
 
+```text
 feature/...
 fix/...
 docs/...
 refactor/...
 security/...
+```
 
 Examples:
 
+```text
 feature/invoice-module
 fix/ledger-balance
 docs/update-readme
 refactor/database-layer
 security/session-hardening
-Contributing
+```
+
+---
+
+## Contributing
 
 JRS OfficeTrack is maintained as a JRSphere engineering project.
 
 For future collaborative development:
 
-Create or select an issue describing the change.
-Create a focused branch.
-Make the required changes.
-Test the affected workflow locally.
-Review database changes carefully.
-Commit the changes with a clear message.
-Push the branch.
-Open a Pull Request.
-Address review feedback.
-Merge only after the implementation is verified.
+1. Create or select an issue describing the change.
+2. Create a focused branch.
+3. Make the required changes.
+4. Test the affected workflow locally.
+5. Review database changes carefully.
+6. Commit the changes with a clear message.
+7. Push the branch.
+8. Open a Pull Request.
+9. Address review feedback.
+10. Merge only after the implementation is verified.
 
 When modifying financial functionality, changes should be reviewed carefully because ledger and account operations affect stored business data.
 
-Commit Convention
+---
+
+## Commit Convention
 
 The repository currently contains an initial commit but does not establish a formal commit-message convention.
 
 A consistent convention is recommended for future development:
 
+```text
 feat: add invoice module
 fix: correct worker balance reversal
 docs: improve installation guide
@@ -594,124 +686,153 @@ refactor: simplify ledger queries
 test: add job calculation tests
 security: harden session handling
 chore: update project configuration
+```
 
-This is a recommended convention, not an existing repository policy.
+This is a **recommended convention**, not an existing repository policy.
 
-Security
+---
+
+## Security
 
 Security should be treated as an ongoing engineering requirement, particularly because the application handles authentication and financial information.
 
-Current Recommendations
-Never commit production credentials or secrets.
-Move database configuration to environment variables.
-Review all authentication and password-reset logic before deployment.
-Add CSRF protection to state-changing forms.
-Validate and sanitize uploaded files more defensively.
-Add authorization checks consistently across all management actions.
-Keep PHP and database software patched.
-Review SQL operations and error handling before production use.
-Add rate limiting or lockout controls for authentication where appropriate.
-Introduce dependency and security scanning when a package-management workflow is added.
-Production Readiness
+### Current Recommendations
 
-The current repository should be treated as a development-stage application until configuration management, schema alignment, testing, and security hardening have been completed.
+* Never commit production credentials or secrets.
+* Move database configuration to environment variables.
+* Review all authentication and password-reset logic before deployment.
+* Add CSRF protection to state-changing forms.
+* Validate and sanitize uploaded files more defensively.
+* Add authorization checks consistently across all management actions.
+* Keep PHP and database software patched.
+* Review SQL operations and error handling before production use.
+* Add rate limiting or lockout controls for authentication where appropriate.
+* Introduce dependency and security scanning when a package-management workflow is added.
 
-Known Implementation Notes
+### Production Readiness
+
+The current repository should be treated as a **development-stage application** until configuration management, schema alignment, testing, and security hardening have been completed.
+
+---
+
+## Known Implementation Notes
 
 The repository currently contains several areas where application code and repository structure are not fully aligned.
 
-Database / Application Mismatch
+### Database / Application Mismatch
 
 The included SQL dump defines a relatively small schema, while parts of the PHP application reference additional fields and tables.
 
 Examples include:
 
-settings.php references admin fields such as profile information and status that are not present in the included admin table definition.
-navbar.php and mark_read.php reference a notifications table that is not present in the SQL dump.
-dashboard.php queries a people table that is not present in the included schema.
-Some application logic assumes an admin record with id = 1, while the supplied SQL seed data uses a different admin ID.
+* `settings.php` references admin fields such as profile information and status that are not present in the included `admin` table definition.
+* `navbar.php` and `mark_read.php` reference a `notifications` table that is not present in the SQL dump.
+* `dashboard.php` queries a `people` table that is not present in the included schema.
+* Some application logic assumes an admin record with `id = 1`, while the supplied SQL seed data uses a different admin ID.
 
 These should be reconciled before relying on those workflows in a fresh installation.
 
-Navigation / Incomplete Modules
+### Navigation / Incomplete Modules
 
 The shared sidebar contains links for:
 
+```text
 invoices.php
 people.php
 inventory.php
+```
 
 Those files are not currently present in the repository.
 
-They should therefore be treated as planned/incomplete modules, not as currently implemented application features.
+They should therefore be treated as **planned/incomplete modules**, not as currently implemented application features.
 
-Configuration
+### Configuration
 
-includes/db.php is present in the repository and contains local database configuration. Although it is listed in .gitignore, the file is already tracked in Git.
+`includes/db.php` is present in the repository and contains local database configuration. Although it is listed in `.gitignore`, the file is already tracked in Git.
 
 Before production deployment, configuration handling should be redesigned.
 
-Roadmap
-Completed
-Admin authentication
-Dashboard
-Job entry workflow
-Automatic commission calculation
-Business-profit calculation
-Worker management
-Account ledger
-Manual transactions
-Date/month financial reporting
-JRSphere about page
-In Progress
-Schema/application alignment
-Settings integration
-Notification integration
-Navigation cleanup
-Security hardening
-Configuration improvements
-Planned
-Invoice management
-People/customer management
-Inventory management
-Automated testing
-CI/CD
-Improved reporting
-Production deployment documentation
-Future
-API layer
-More modular application architecture
-Improved observability
-Expanded business workflows
-Production-grade deployment and infrastructure
-License
+---
 
-License: Not currently specified.
+## Roadmap
 
-No open-source license is currently defined in the repository.
+### Completed
 
-Until a license is added, users should not assume that the source code may be freely reused, modified, or redistributed.
+* Admin authentication
+* Dashboard
+* Job entry workflow
+* Automatic commission calculation
+* Business-profit calculation
+* Worker management
+* Account ledger
+* Manual transactions
+* Date/month financial reporting
+* JRSphere about page
 
-About JRSphere
+### In Progress
 
-JRSphere is an emerging software and IT-focused organization built around practical engineering, continuous learning, experimentation, and real-world software development.
+* Schema/application alignment
+* Settings integration
+* Notification integration
+* Navigation cleanup
+* Security hardening
+* Configuration improvements
+
+### Planned
+
+* Invoice management
+* People/customer management
+* Inventory management
+* Automated testing
+* CI/CD
+* Improved reporting
+* Production deployment documentation
+
+### Future
+
+* API layer
+* More modular application architecture
+* Improved observability
+* Expanded business workflows
+* Production-grade deployment and infrastructure
+
+---
+
+## License
+
+This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.
+
+You may use, study, modify, and distribute the software under the terms of the GPL-3.0 license.
+
+See the [`LICENSE`](LICENSE) file for the complete license text.
+
+---
+
+## About JRSphere
+
+**JRSphere** is an emerging software and IT-focused organization built around practical engineering, continuous learning, experimentation, and real-world software development.
 
 JRSphere's working philosophy is:
 
-Learn by building. Build with purpose. Deliver with quality.
+> **Learn by building. Build with purpose. Deliver with quality.**
 
 This repository is part of that engineering journey and demonstrates an early implementation of a practical business management system.
 
-Maintainers
+---
+
+## Maintainers
 
 Built and maintained by:
 
-JRSphere
+**JRSphere**
 
 The project is developed collaboratively by the JRSphere team.
 
-Contact
-JRSphere
+---
+
+## Contact
+
+### JRSphere
 
 GitHub Organization:
 
@@ -723,24 +844,32 @@ https://github.com/JRSphere/Office_Tack
 
 For project-related issues, technical discussions, and proposed improvements, use the repository's GitHub Issues and Pull Requests.
 
-Repository Snapshot
-Area	Current State
-Project Type	Server-rendered business web application
-Backend	PHP
-Database	MySQL / MariaDB
-Frontend	HTML + Tailwind CSS
-Authentication	PHP session-based admin login
-API	No separate API layer
-Automated Tests	Not currently implemented
-CI/CD	Not currently implemented
-Package Manager	None configured
-License	Not specified
-Deployment Configuration	Not included
-Development Status	In Development
-JRSphere Engineering Philosophy
+---
+
+## Repository Snapshot
+
+| Area                     | Current State                            |
+| ------------------------ | ---------------------------------------- |
+| Project Type             | Server-rendered business web application |
+| Backend                  | PHP                                      |
+| Database                 | MySQL / MariaDB                          |
+| Frontend                 | HTML + Tailwind CSS                      |
+| Authentication           | PHP session-based admin login            |
+| API                      | No separate API layer                    |
+| Automated Tests          | Not currently implemented                |
+| CI/CD                    | Not currently implemented                |
+| Package Manager          | None configured                          |
+| License                  | GNU General Public License v3.0          |
+| Deployment Configuration | Not included                             |
+| Development Status       | In Development                           |
+
+---
+
+## JRSphere Engineering Philosophy
 
 This project is more than a collection of PHP pages. It is part of JRSphere's practical approach to software engineering:
 
+```text
 Learn
   ↓
 Build
@@ -750,7 +879,16 @@ Test
 Improve
   ↓
 Deliver
+```
 
 The goal is to turn real requirements into maintainable software while continuously improving engineering quality, reliability, security, and development practices.
 
-<p align="center"> <strong>JRSphere</strong><br> <em>Learn by building. Build with purpose. Deliver with quality.</em> </p> ```
+---
+
+<p align="center">
+  <strong>JRSphere</strong><br>
+  <em>Learn by building. Build with purpose. Deliver with quality.</em>
+</p>
+```
+
+README-তে GPL-3.0 উল্লেখ করার পাশাপাশি repository root-এ একটি `LICENSE` file-এ **official GNU GPL v3.0 license text** যোগ করাও জরুরি।
