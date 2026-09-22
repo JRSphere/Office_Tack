@@ -712,7 +712,7 @@ This project is licensed under the GNU General Public License v3.0 (GPL-3.0).
 
 You may use, study, modify, and distribute the software under the terms of the GPL-3.0 license.
 
-See the LICENSE file for the complete license text.
+See the [LICENSE](LICENSE) file for the complete license text.
 
 ## About JRSphere
 
